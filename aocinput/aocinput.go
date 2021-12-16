@@ -36,6 +36,30 @@ func LoadIntArray(filename string) []int {
 	return lines
 }
 
+func LoadStringArray(filename string) []string {
+	var lines []string
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return lines
+}
+
 type StringIntEntry struct {
 	S string
 	V int
