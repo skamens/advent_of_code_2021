@@ -95,3 +95,30 @@ func LoadStringIntArray(filename string) []StringIntEntry {
 
 	return result
 }
+
+func LoadIntArrayLine(filename string) []int {
+	var result []int
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	scanner.Scan()
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	vals := strings.Split(scanner.Text(), ",")
+
+	for _, v := range vals {
+		num, _ := strconv.Atoi(v)
+		result = append(result, num)
+	}
+
+	return result
+}
