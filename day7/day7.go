@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc21/aocinput"
+	"aoc21/aocutil"
 	"fmt"
 	"math"
 )
@@ -18,7 +18,7 @@ func main() {
 
 	input := "input7.txt"
 
-	vals := aocinput.LoadIntArrayLine(input)
+	vals := aocutil.LoadIntArrayLine(input)
 
 	lowest := math.MaxInt64
 

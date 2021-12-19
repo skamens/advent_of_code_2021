@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc21/aocinput"
+	"aoc21/aocutil"
 	"fmt"
 	"math"
 )
@@ -10,7 +10,7 @@ func main() {
 
 	input := "input1.txt"
 
-	vals := aocinput.LoadIntArray(input)
+	vals := aocutil.LoadIntArray(input)
 	last := math.MaxInt
 	increases := 0
 	for i := 0; i < len(vals)-2; i++ {

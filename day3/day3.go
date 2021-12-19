@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc21/aocinput"
+	"aoc21/aocutil"
 	"fmt"
 	"strconv"
 	"strings"
@@ -64,7 +64,7 @@ func main() {
 
 	input := "input3.txt"
 
-	vals := aocinput.LoadStringArray(input)
+	vals := aocutil.LoadStringArray(input)
 
 	positionCounts := getPositionCounts(vals)
 

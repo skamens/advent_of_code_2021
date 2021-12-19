@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc21/aocinput"
+	"aoc21/aocutil"
 	"fmt"
 )
 
@@ -9,7 +9,7 @@ func main() {
 
 	input := "input2.txt"
 
-	vals := aocinput.LoadStringIntArray(input)
+	vals := aocutil.LoadStringIntArray(input)
 
 	depth := 0
 	position := 0

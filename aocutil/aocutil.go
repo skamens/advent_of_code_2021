@@ -1,9 +1,10 @@
-package aocinput
+package aocutil
 
 import (
 	"bufio"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -51,6 +52,31 @@ func LoadStringArray(filename string) []string {
 
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return lines
+}
+
+func LoadDelimitedStringArray(filename string, delimiter string) [][]string {
+	var lines [][]string
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		s := strings.Split(scanner.Text(), "|")
+		lines = append(lines, s)
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -121,4 +147,22 @@ func LoadIntArrayLine(filename string) []int {
 	}
 
 	return result
+}
+
+func SortArrayValues(arr *[]string) {
+	for i := 0; i < len(*arr); i++ {
+		s := strings.Split((*arr)[i], "")
+		sort.Strings(s)
+
+		(*arr)[i] = strings.Join(s, "")
+	}
+}
+
+func StringContainsAll(container string, contents string) bool {
+	for _, s := range strings.Split(contents, "") {
+		if !strings.Contains(container, s) {
+			return false
+		}
+	}
+	return true
 }

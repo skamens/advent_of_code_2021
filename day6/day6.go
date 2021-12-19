@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc21/aocinput"
+	"aoc21/aocutil"
 	"fmt"
 )
 
@@ -9,7 +9,7 @@ func main() {
 
 	input := "input6.txt"
 
-	vals := aocinput.LoadIntArrayLine(input)
+	vals := aocutil.LoadIntArrayLine(input)
 
 	var counts [6]int
 

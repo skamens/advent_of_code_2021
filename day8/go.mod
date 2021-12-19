@@ -1,4 +1,5 @@
-module aoc21/day6
+module aoc21/day8
+
 
 go 1.17
 
