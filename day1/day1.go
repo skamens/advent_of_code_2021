@@ -11,7 +11,7 @@ func main() {
 	input := "input1.txt"
 
 	vals := aocutil.LoadIntArray(input)
-	last := math.MaxInt
+	last := math.MaxInt64
 	increases := 0
 	for i := 0; i < len(vals)-2; i++ {
 		sum := vals[i] + vals[i+1] + vals[i+2]
