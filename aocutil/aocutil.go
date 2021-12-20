@@ -197,3 +197,50 @@ func StringContainsAll(container string, contents string) bool {
 	}
 	return true
 }
+
+type Point struct {
+	X int
+	Y int
+}
+
+func GetAdjacentPoints(grid [][]int, p Point) []Point {
+
+	results := make([]Point, 0, 6)
+
+	var minx, maxx int
+	var miny, maxy int
+
+	if p.X == 0 {
+		minx = 0
+	} else {
+		minx = p.X - 1
+	}
+
+	if p.X == len(grid)-1 {
+		maxx = p.X
+	} else {
+		maxx = p.X + 1
+	}
+
+	if p.Y == 0 {
+		miny = 0
+	} else {
+		miny = p.Y - 1
+	}
+
+	if p.Y == len(grid[0])-1 {
+		maxy = p.Y
+	} else {
+		maxy = p.Y + 1
+	}
+
+	for i := minx; i <= maxx; i++ {
+		for j := miny; j <= maxy; j++ {
+			if !(i == p.X && j == p.Y) {
+				results = append(results, Point{X: i, Y: j})
+			}
+		}
+	}
+
+	return results
+}
