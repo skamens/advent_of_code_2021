@@ -149,6 +149,37 @@ func LoadIntArrayLine(filename string) []int {
 	return result
 }
 
+func Load2DArray(filename string) [][]int {
+	var result [][]int
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		vals := strings.Split(scanner.Text(), "")
+
+		var row []int
+		for _, s := range vals {
+			v, err := strconv.Atoi(s)
+			if err != nil {
+				log.Fatal(err)
+			}
+			row = append(row, v)
+		}
+		result = append(result, row)
+	}
+
+	return result
+
+}
+
 func SortArrayValues(arr *[]string) {
 	for i := 0; i < len(*arr); i++ {
 		s := strings.Split((*arr)[i], "")
