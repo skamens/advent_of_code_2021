@@ -180,6 +180,32 @@ func Load2DArray(filename string) [][]int {
 
 }
 
+func LoadPoints(filename string) []Point {
+	var result []Point
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		vals := strings.Split(scanner.Text(), ",")
+
+		var p Point
+		p.X, _ = strconv.Atoi(vals[0])
+		p.Y, _ = strconv.Atoi(vals[1])
+		result = append(result, p)
+	}
+
+	return result
+
+}
+
 func SortArrayValues(arr *[]string) {
 	for i := 0; i < len(*arr); i++ {
 		s := strings.Split((*arr)[i], "")
