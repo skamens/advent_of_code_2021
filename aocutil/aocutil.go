@@ -75,7 +75,7 @@ func LoadDelimitedStringArray(filename string, delimiter string) [][]string {
 	scanner := bufio.NewScanner(f)
 
 	for scanner.Scan() {
-		s := strings.Split(scanner.Text(), "|")
+		s := strings.Split(scanner.Text(), delimiter)
 		lines = append(lines, s)
 	}
 

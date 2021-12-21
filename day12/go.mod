@@ -1,4 +1,4 @@
-module aoc21/day11
+module aoc21/day12
 
 
 go 1.17
