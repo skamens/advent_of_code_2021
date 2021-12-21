@@ -244,3 +244,27 @@ func GetAdjacentPoints(grid [][]int, p Point) []Point {
 
 	return results
 }
+
+type Checker func(int) bool
+
+func FindInGrid(grid [][]int, comp Checker, value int) []Point {
+	var results []Point
+	for x, row := range grid {
+		for y, val := range row {
+			if comp(val) {
+				results = append(results, Point{X: x, Y: y})
+			}
+		}
+	}
+
+	return results
+}
+
+func PointInList(list []Point, p Point) bool {
+	for _, entry := range list {
+		if entry.X == p.X && entry.Y == p.Y {
+			return true
+		}
+	}
+	return false
+}
