@@ -9,11 +9,14 @@ import (
 // Given the first portion of a path, find all paths that come from it.
 func findPaths(connections map[string][]string, path []string) [][]string {
 
-	fmt.Printf("findPaths: ")
-	fmt.Println(path)
+	//	fmt.Printf("findPaths: ")
+	//	fmt.Println(path)
 
 	var results [][]string
 	for _, n := range connections[path[len(path)-1]] {
+		if n == "start" {
+			continue
+		}
 		if n == "end" {
 			newpath := make([]string, len(path))
 			copy(newpath, path)
@@ -29,7 +32,10 @@ func findPaths(connections map[string][]string, path []string) [][]string {
 					break
 				}
 			}
-			if found {
+			if found && hasDoubleLowercase(path) {
+				// If I found myself already and there is already a double
+				// lowercase entry in the path, then I have to skip this one.
+				// Otherwise we will go ahead and add this one a second time
 				continue
 			}
 		}
@@ -42,8 +48,26 @@ func findPaths(connections map[string][]string, path []string) [][]string {
 
 		}
 	}
-	fmt.Println(results)
+	//fmt.Println(results)
 	return results
+}
+
+func hasDoubleLowercase(path []string) bool {
+	for i := 0; i < len(path); i++ {
+		if strings.ToLower(path[i]) == path[i] {
+			// It's a lowercase value. Now see if there's another of the same
+
+			for j := i + 1; j < len(path); j++ {
+				if path[j] == path[i] {
+					// This means there is a double lowercase entry in the path
+					return true
+				}
+			}
+		}
+	}
+
+	// If we got here, there isn't a double lowercase entry
+	return false
 }
 
 func main() {
