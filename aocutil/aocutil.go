@@ -61,6 +61,26 @@ func LoadStringArray(filename string) []string {
 	return lines
 }
 
+// LoadSingleString: Load a single string
+func LoadSingleString(filename string) string {
+
+	f, err := os.Open(filename)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	scanner.Scan()
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return scanner.Text()
+}
+
 func LoadDelimitedStringArray(filename string, delimiter string) [][]string {
 	var lines [][]string
 
