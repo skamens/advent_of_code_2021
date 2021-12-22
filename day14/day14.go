@@ -66,7 +66,7 @@ func main() {
 	}
 
 	highest := 0
-	lowest := math.MaxInt
+	lowest := math.MaxInt8
 	for _, c := range letterCounts {
 		if c > highest {
 			highest = c
