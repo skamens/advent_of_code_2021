@@ -4,8 +4,6 @@ import (
 	"aoc21/aocutil"
 	"fmt"
 	"strconv"
-
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 type snail struct {
@@ -16,42 +14,65 @@ type snail struct {
 	parent     *snail
 }
 
-func reduce(snail *s, depth int) {
+func reduce(s *snail, depth int) bool {
 	if s == nil {
-		return
+		return false
 	}
 
-	if depth == 4 {
+	if depth >= 4 && s.leftnum != -1 && s.rightnum != -1 {
 		// Find the first regular number to the left
-		for p := s.parent; p; p = p.parent {
+		for p := s.parent; p != nil; p = p.parent {
 			if p.leftnum != -1 {
 				p.leftnum += s.leftnum
 				break
 			}
 		}
 
-		for p := s.parent; p; p = p.parent {
-			if (p.rightnum != -1 {
+		for p := s.parent; p != nil; p = p.parent {
+			if p.rightnum != -1 {
 				p.rightnum += s.rightnum
 				break
 			}
 		}
 
-		# This one becomes just 0
-		if (s.parent.leftsnail == s) {
+		// This one becomes just 0
+		if s.parent.leftsnail == s {
 			s.parent.leftsnail = nil
 			s.parent.leftnum = 0
-		} else if (s.parent.rightsnail == s) {
+		} else if s.parent.rightsnail == s {
 			s.parent.rightsnail = nil
 			s.parent.rightnum = 0
 		}
+		return true
+	} else if s.leftsnail != nil && reduce(s.leftsnail, depth+1) {
+		return true
+	} else if s.rightsnail != nil && reduce(s.rightsnail, depth+1) {
+		return true
+	} else {
+		return false
 	}
 }
 
 func printSnail(s *snail) string {
-	
-}
+	var result string
 
+	result = result + "["
+	if s.leftnum != -1 {
+		result = fmt.Sprintf("%s%d", result, s.leftnum)
+	} else {
+		result = fmt.Sprintf("%s%s", result, printSnail(s.leftsnail))
+	}
+
+	result += ","
+	if s.rightnum != -1 {
+		result = fmt.Sprintf("%s%d", result, s.rightnum)
+	} else {
+		result = fmt.Sprintf("%s%s", result, printSnail(s.rightsnail))
+	}
+
+	result += "]"
+	return result
+}
 
 func parseSnail(in string) *snail {
 
@@ -61,7 +82,6 @@ func parseSnail(in string) *snail {
 
 	s = in
 
-	fmt.Printf("\ns: %s\n", s)
 	var leftString, rightString string
 
 	if s[0] == '[' {
@@ -93,20 +113,20 @@ func parseSnail(in string) *snail {
 		rightString = s[2:]
 	}
 
-	fmt.Printf("leftString: %s, rightString, %s\n", leftString, rightString)
 	if len(leftString) > 1 {
 		newSnail.leftsnail = parseSnail(leftString)
-		newSnail.leftsnail.parent = newSnail
+		newSnail.leftsnail.parent = &newSnail
 	} else {
 		newSnail.leftnum, _ = strconv.Atoi(leftString)
 	}
 
 	if len(rightString) > 1 {
 		newSnail.rightsnail = parseSnail(rightString)
-		newSnail.rightsnail.parent = newSnail
+		newSnail.rightsnail.parent = &newSnail
 	} else {
 		newSnail.rightnum, _ = strconv.Atoi(rightString)
 	}
+
 	return &newSnail
 }
 
@@ -123,18 +143,27 @@ func main() {
 		if theSnail == nil {
 			// This is the first one, so we just read it
 			theSnail = parseSnail(s)
+			fmt.Printf("First snail: %s\n", printSnail(theSnail))
+
 			continue
 		}
 
 		// Not the first, so we want to read the new one,
 		// Add them together, and reduce
 
-		theSnail.leftsnail = theSnail
-		theSnail.leftsnail.parent = theSnail
-		theSnail.rightsnail = parseSnail(s)
-		theSnail.rightsnail.parent = theSnail
+		var newSnail = snail{-1, nil, -1, nil, nil}
 
+		newSnail.leftsnail = theSnail
+		theSnail.parent = &newSnail
+		newSnail.rightsnail = parseSnail(s)
+		newSnail.rightsnail.parent = &newSnail
+
+		theSnail = &newSnail
+
+		fmt.Printf("Before reduce: %s\n", printSnail(theSnail))
 		reduce(theSnail, 0)
+		fmt.Printf("After reduce: %s\n", printSnail(theSnail))
+
 	}
 
 }
