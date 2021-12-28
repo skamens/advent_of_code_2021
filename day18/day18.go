@@ -28,6 +28,16 @@ func reduce(s *snail, depth int) bool {
 			}
 		}
 
+		p := s.parent
+		// Find the first regular number ot the right
+		for {
+			if p.rightnum != -1 {
+				p.rightnum += s.rightnum
+				break
+			}
+
+			if (p.parent 
+		}
 		for p := s.parent; p != nil; p = p.parent {
 			if p.rightnum != -1 {
 				p.rightnum += s.rightnum
@@ -159,6 +169,8 @@ func main() {
 		newSnail.rightsnail.parent = &newSnail
 
 		theSnail = &newSnail
+
+		theSnail = parseSnail("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]")
 
 		fmt.Printf("Before reduce: %s\n", printSnail(theSnail))
 		reduce(theSnail, 0)
