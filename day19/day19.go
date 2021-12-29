@@ -35,6 +35,7 @@ func reduce(s *snail, depth int) bool {
 				p.rightnum += s.rightnum
 				break
 			}
+
 		}
 		for p := s.parent; p != nil; p = p.parent {
 			if p.rightnum != -1 {
