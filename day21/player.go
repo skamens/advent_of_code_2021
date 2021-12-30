@@ -2,12 +2,9 @@ package main
 
 // Player - the player
 type Player struct {
-	startposition int
-	startscore    int
-	position      int
-	totalScore    int
-
-	playerNum int
+	position   int
+	totalScore int
+	playerNum  int
 }
 
 func (p *Player) turn(rolls int) {
